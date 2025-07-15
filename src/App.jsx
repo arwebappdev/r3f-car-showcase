@@ -3,6 +3,7 @@ import Sections from "./Sections";
 import Scene from "./3DModel/Scene";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Header from "./components/Header";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,12 +33,13 @@ export default function App() {
           Loading... {Math.round(loadProgress)}%
         </div>
       )}
+      <Header />
       <div className="fixed top-0 left-0 w-screen h-screen z-0">
-        <Scene
+        {/* <Scene
           progress={progress}
           onLoaded={() => setIsLoaded(true)}
           onProgress={setLoadProgress} // 👈 pass loader update
-        />
+        />*/}
       </div>
       <div className="relative z-10">
         <Sections />
