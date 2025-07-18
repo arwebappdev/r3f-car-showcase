@@ -26,20 +26,37 @@ export default function App() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!isLoaded) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto"; // cleanup on unmount
+    };
+  }, [isLoaded]);
+
   return (
-    <main ref={containerRef} className="relative overflow-x-hidden">
+    <main ref={containerRef} className={`relative`}>
       {!isLoaded && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white text-2xl font-semibold">
           Loading... {Math.round(loadProgress)}%
         </div>
       )}
-      <Header />
+
+      <Header
+        className={`transform transition-transform duration-500 ease-in-out ${
+          isLoaded ? "translate-y-0" : "-translate-y-full"
+        }`}
+      />
+
       <div className="fixed top-0 left-0 w-screen h-screen z-0">
-        {/* <Scene
+        <Scene
           progress={progress}
           onLoaded={() => setIsLoaded(true)}
           onProgress={setLoadProgress} // 👈 pass loader update
-        />*/}
+        />
       </div>
       <div className="relative z-10">
         <Sections />

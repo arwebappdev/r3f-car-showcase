@@ -99,8 +99,8 @@ export default function Scene({ progress, onLoaded, onProgress }) {
       )}
 
       {/* Lights */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[0, 5, 5]} intensity={0.5} castShadow />
+      <ambientLight intensity={0} />
+      <pointLight position={[0, 5, 5]} intensity={0} castShadow />
 
       {/* Camera */}
       <AnimatedCamera progress={progress} />

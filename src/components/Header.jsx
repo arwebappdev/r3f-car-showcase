@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, Menu, X } from "lucide-react";
 import bmwLogo from "../assets/bmw-logo.png";
 import MLogo from "../assets/MLogo.png";
-export default function ResponsiveHeader() {
+export default function ResponsiveHeader({ className = "" }) {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function ResponsiveHeader() {
 
   return (
     <header
-      className="fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between shadow-md ring-2"
+      className={`${className} fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between ring-2`}
       style={{
         background: "linear-gradient( #1a1a1a, #2c2c2c, #2c2c2c, #1a1a1a)",
       }}
@@ -85,7 +85,7 @@ export default function ResponsiveHeader() {
       {/* Right Side: Search + Mobile Menu Button */}
       <div className="flex items-center gap-4">
         {/* Search */}
-        <div className="relative" ref={searchRef}>
+        <div className="relative pt-1" ref={searchRef}>
           <button onClick={() => setSearchOpen(!searchOpen)}>
             <Search size={20} />
           </button>
@@ -94,7 +94,11 @@ export default function ResponsiveHeader() {
               ref={searchInputRef}
               type="text"
               placeholder="Search..."
-              className="absolute right-0 top-0 h-full p-3 pt-3 pb-4 bg-black text-white border border-white/30 rounded-lg w-48 transition-all duration-300"
+              className="absolute right-0 top-0 h-full p-3 pt-3 pb-4 bg-black text-white rounded-lg w-48 transition-all duration-300"
+              style={{
+                background:
+                  "linear-gradient( #1a1a1a, #2a2a2a, #2a2a2a, #1a1a1a)",
+              }}
             />
           )}
         </div>
@@ -102,7 +106,7 @@ export default function ResponsiveHeader() {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden z-[51]"
+          className="lg:hidden z-[51] duration-100 active:rotate-180"
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -110,7 +114,7 @@ export default function ResponsiveHeader() {
 
       {/* Slide Menu for Mobile */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-black text-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden p-6 flex flex-col gap-4 ${
+        className={`fixed top-0 right-0 h-full w-64 bg-black text-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden p-6 pt-10 flex flex-col gap-4 ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
