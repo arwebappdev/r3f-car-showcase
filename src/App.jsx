@@ -46,6 +46,7 @@ export default function App() {
       )}
 
       <Header
+        loaded={isLoaded}
         className={`transform transition-transform duration-500 ease-in-out ${
           isLoaded ? "translate-y-0" : "-translate-y-full"
         }`}

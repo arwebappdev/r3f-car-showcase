@@ -1,13 +1,14 @@
-// ResponsiveHeader.jsx
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Search, Menu, X } from "lucide-react";
 import bmwLogo from "../assets/bmw-logo.png";
 import MLogo from "../assets/MLogo.png";
-export default function ResponsiveHeader({ className = "" }) {
+import gsap from "gsap";
+export default function ResponsiveHeader({ loaded, className = "" }) {
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef(null);
+  const mTitleRef = useRef();
 
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
@@ -36,17 +37,39 @@ export default function ResponsiveHeader({ className = "" }) {
     setDropdownOpen(dropdownOpen === index ? null : index);
   };
 
+  useEffect(() => {
+    gsap.from(mTitleRef.current, {
+      x: -100,
+      duration: 2,
+      delay: 2,
+      ease: "expo.inOut",
+      opacity: 0,
+    });
+  }, [loaded]);
+
   return (
     <header
-      className={`${className} fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between ring-2`}
+      className={`${className} fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between`}
       style={{
         background: "linear-gradient( #1a1a1a, #2c2c2c, #2c2c2c, #1a1a1a)",
       }}
     >
-      {/* BMW Logo */}
+      {/* BMW & M Logo */}
       <div className="flex items-center gap-2">
         <img src={bmwLogo} alt="BMW" className="h-10 w-10" />
         <img src={MLogo} alt="BMW" className="h-10 w-20" />
+
+        {/* M title */}
+        <div className="w-[150px] pl-3 ml-1 border-white border-l-2 font-thin overflow-hidden">
+          {loaded ? (
+            <div className="relative" ref={mTitleRef}>
+              The <b>Ultimate</b>
+              <break /> Driving Machine
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
 
       {/* Desktop Nav */}
@@ -114,7 +137,7 @@ export default function ResponsiveHeader({ className = "" }) {
 
       {/* Slide Menu for Mobile */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-black text-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out lg:hidden p-6 pt-10 flex flex-col gap-4 ${
+        className={`fixed top-0 right-0 h-full w-64 bg-black/30 backdrop-blur-md text-white z-[50] transform transition-transform duration-300 ease-[cubic-bezier(0.95,0.05,0.795,0.035)] lg:hidden p-6 pt-10 flex flex-col gap-4 ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
