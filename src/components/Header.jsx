@@ -48,111 +48,126 @@ export default function ResponsiveHeader({ loaded, className = "" }) {
   }, [loaded]);
 
   return (
-    <header
-      className={`${className} fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between`}
-      style={{
-        background: "linear-gradient( #1a1a1a, #2c2c2c, #2c2c2c, #1a1a1a)",
-      }}
-    >
-      {/* BMW & M Logo */}
-      <div className="flex items-center gap-2">
-        <img src={bmwLogo} alt="BMW" className="h-10 w-10" />
-        <img src={MLogo} alt="BMW" className="h-10 w-20" />
+    <>
+      <header
+        className={`${className} fixed top-0 left-0 w-full z-50 bg-black text-white px-4 py-3 flex items-center justify-between`}
+        style={{
+          background: "linear-gradient( #1a1a1a, #2c2c2c, #2c2c2c, #1a1a1a)",
+        }}
+      >
+        {/* BMW & M Logo */}
+        <div className="flex items-center gap-2">
+          <img src={bmwLogo} alt="BMW" className="h-10 w-10" />
+          <img src={MLogo} alt="BMW" className="h-10 w-20" />
 
-        {/* M title */}
-        <div className="w-[150px] pl-3 ml-1 border-white border-l-2 font-thin overflow-hidden">
-          {loaded ? (
-            <div className="relative" ref={mTitleRef}>
-              The <b>Ultimate</b>
-              <break /> Driving Machine
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-      </div>
-
-      {/* Desktop Nav */}
-      <nav className="hidden lg:flex gap-5 items-center">
-        <button className="hover:text-gray-300 transition">Home</button>
-        <button className="hover:text-gray-300 transition">Models</button>
-        <button className="hover:text-gray-300 transition">Gallery</button>
-
-        {["Services", "Technology", "Company"].map((label, i) => (
-          <div key={i} className="relative">
-            <button
-              onClick={() => toggleDropdown(i)}
-              className="flex items-center gap-1 hover:text-gray-300 transition"
-            >
-              {label}
-              <ChevronDown size={16} />
-            </button>
-
-            {dropdownOpen === i && (
-              <div className="absolute top-full mt-2 left-0 bg-white text-black rounded shadow-lg min-w-[150px] p-2 z-50">
-                <a href="#" className="block px-3 py-1 hover:bg-gray-100">
-                  Option 1
-                </a>
-                <a href="#" className="block px-3 py-1 hover:bg-gray-100">
-                  Option 2
-                </a>
-                <a href="#" className="block px-3 py-1 hover:bg-gray-100">
-                  Option 3
-                </a>
+          {/* M title */}
+          <div className="w-[150px] pl-3 ml-1 border-white border-l-2 font-thin overflow-hidden">
+            {loaded ? (
+              <div className="relative" ref={mTitleRef}>
+                The <b>Ultimate</b>
+                <break /> Driving Machine
               </div>
+            ) : (
+              ""
             )}
           </div>
-        ))}
-      </nav>
-
-      {/* Right Side: Search + Mobile Menu Button */}
-      <div className="flex items-center gap-4">
-        {/* Search */}
-        <div className="relative pt-1" ref={searchRef}>
-          <button onClick={() => setSearchOpen(!searchOpen)}>
-            <Search size={20} />
-          </button>
-          {searchOpen && (
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Search..."
-              className="absolute right-0 top-0 h-full p-3 pt-3 pb-4 bg-black text-white rounded-lg w-48 transition-all duration-300"
-              style={{
-                background:
-                  "linear-gradient( #1a1a1a, #2a2a2a, #2a2a2a, #1a1a1a)",
-              }}
-            />
-          )}
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden z-[51] duration-100 active:rotate-180"
-        >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+        {/* Desktop Nav */}
+        <nav className="hidden lg:flex gap-5 items-center">
+          <button className="hover:text-gray-300 transition">Home</button>
+          <button className="hover:text-gray-300 transition">Magazine</button>
+          <button className="hover:text-gray-300 transition">Models</button>
 
+          {["M Mototorsport", "M Driving Experience", "More"].map(
+            (label, i) => (
+              <div key={i} className="relative">
+                <button
+                  onClick={() => toggleDropdown(i)}
+                  className="flex items-center gap-1 hover:text-gray-300 transition"
+                >
+                  {label}
+                  <ChevronDown size={16} />
+                </button>
+
+                {dropdownOpen === i && (
+                  <div className="absolute top-full mt-2 left-0 bg-white text-black rounded shadow-lg min-w-[150px] p-2 z-50">
+                    <a href="#" className="block px-3 py-1 hover:bg-gray-100">
+                      Option 1
+                    </a>
+                    <a href="#" className="block px-3 py-1 hover:bg-gray-100">
+                      Option 2
+                    </a>
+                    <a href="#" className="block px-3 py-1 hover:bg-gray-100">
+                      Option 3
+                    </a>
+                  </div>
+                )}
+              </div>
+            )
+          )}
+        </nav>
+
+        {/* Right Side: Search + Mobile Menu Button */}
+        <div className="flex items-center gap-4">
+          {/* Search */}
+          <div className="relative pt-1" ref={searchRef}>
+            <button onClick={() => setSearchOpen(!searchOpen)}>
+              <Search size={20} />
+            </button>
+            {searchOpen && (
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Search..."
+                className="absolute right-0 top-0 h-full p-3 pt-3 pb-4 bg-black text-white rounded-lg w-48 transition-all duration-300"
+                style={{
+                  background:
+                    "linear-gradient( #1a1a1a, #2a2a2a, #2a2a2a, #1a1a1a)",
+                }}
+              />
+            )}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className={`${
+              menuOpen ? "opacity-0" : ""
+            } lg:hidden duration-100 active:scale-50`}
+          >
+            <Menu size={24} />
+          </button>
+        </div>
+      </header>
       {/* Slide Menu for Mobile */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-black/30 backdrop-blur-md text-white z-[50] transform transition-transform duration-300 ease-[cubic-bezier(0.95,0.05,0.795,0.035)] lg:hidden p-6 pt-10 flex flex-col gap-4 ${
+        className={`fixed top-0 right-0 h-[97.8%] w-64 bg-black/70 backdrop-blur-sm text-white z-50 transform transition-transform duration-300 ease-[cubic-bezier(0.95,0.05,0.795,0.035)] lg:hidden p-6 pt-10 flex flex-col gap-5 rounded-l-xl my-2 border-s-[1.8px] border-white border-opacity-20  ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {["Home", "Models", "Gallery"].map((item, i) => (
-          <button
-            key={i}
-            className="text-left text-lg hover:text-gray-300"
-            onClick={() => setMenuOpen(false)}
-          >
-            {item}
-          </button>
-        ))}
-
-        {["Services", "Technology", "Company"].map((label, i) => (
-          <div key={i}>
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className={`${
+            menuOpen ? "" : "opacity-0"
+          } lg:hidden duration-100 active:scale-50 absolute right-0 top-0 my-4 mx-4`}
+        >
+          <X size={24} />
+        </button>
+        <div className="block">
+          {["Home", "Magazine", "Models"].map((item, i) => (
+            <button
+              key={i}
+              className="block text-left text-lg hover:text-gray-300"
+              onClick={() => setMenuOpen(false)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+        {["M Mototorsport", "M Driving Experience", "More"].map((label, i) => (
+          <div key={i} className="">
             <span className="text-sm text-gray-400 mb-1 block">{label}</span>
             <div className="flex flex-col gap-1">
               <a href="#" className="hover:text-gray-300 text-base">
@@ -168,6 +183,6 @@ export default function ResponsiveHeader({ loaded, className = "" }) {
           </div>
         ))}
       </div>
-    </header>
+    </>
   );
 }

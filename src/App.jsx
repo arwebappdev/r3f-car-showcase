@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function App() {
   const containerRef = useRef();
   const [progress, setProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false); // by default false
   const [loadProgress, setLoadProgress] = useState(0); // 👈 loading %
 
   useEffect(() => {
