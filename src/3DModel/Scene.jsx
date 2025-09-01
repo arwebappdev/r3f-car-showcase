@@ -16,9 +16,9 @@ import gsap from "gsap";
 // 🎯 Scroll camera positions
 const cameraPositions = [
   new THREE.Vector3(0, -0.5, 4),
-  new THREE.Vector3(1, -0.5, 3),
+  //new THREE.Vector3(1, -0.5, 3),
   new THREE.Vector3(2, -0.5, 3),
-  new THREE.Vector3(2.5, -0.5, 1.5),
+  //new THREE.Vector3(2.5, -0.5, 1.5),
   new THREE.Vector3(5, -0.5, 0),
 ];
 
@@ -26,17 +26,18 @@ const AnimatedCamera = ({ progress }) => {
   const { camera } = useThree();
   const camRef = useRef(camera);
 
-  // ✅ Use ref instead of state to avoid re-renders & race conditions
   const introDoneRef = useRef(false);
+  const lastSectionRef = useRef(0);
 
   useEffect(() => {
-    // 🛑 Prevent camera animation race
+    // Initial intro setup
     camRef.current.position.set(0, -0.6, 2.05);
     camRef.current.lookAt(0, -0.7, 1.999);
 
-    const tl = gsap.timeline();
+    // Store a look target that we can animate
+    const lookTarget = { x: 0, y: -0.7, z: 1.999 };
 
-    tl.to(camRef.current.position, {
+    gsap.to(camRef.current.position, {
       x: 0,
       y: -0.5,
       z: 4,
@@ -44,32 +45,47 @@ const AnimatedCamera = ({ progress }) => {
       duration: 2,
       ease: "power3.out",
       onUpdate: () => {
-        camRef.current.lookAt(0, -0.5, 0);
+        camRef.current.lookAt(lookTarget.x, lookTarget.y, lookTarget.z);
       },
       onComplete: () => {
-        introDoneRef.current = true; // ✅ Start scroll animation after GSAP
+        introDoneRef.current = true;
+      },
+    });
+
+    // Animate the lookAt target as well → smooth head turn
+    gsap.to(lookTarget, {
+      x: 0,
+      y: -0.5,
+      z: 0,
+      delay: 1,
+      duration: 2,
+      ease: "power3.out",
+      onUpdate: () => {
+        camRef.current.lookAt(lookTarget.x, lookTarget.y, lookTarget.z);
       },
     });
   }, []);
 
-  // ✅ Use scroll animation only after intro is done
-  useFrame(() => {
+  useEffect(() => {
     if (!introDoneRef.current) return;
 
-    const index = Math.min(
-      Math.floor(progress * (cameraPositions.length - 1)),
-      cameraPositions.length - 2
-    );
-    const lerpFactor = (progress * (cameraPositions.length - 1)) % 1;
+    // Map progress → discrete section index
+    const sectionIndex = Math.round(progress * (cameraPositions.length - 1));
 
-    const start = cameraPositions[index];
-    const end = cameraPositions[index + 1];
+    if (sectionIndex !== lastSectionRef.current) {
+      lastSectionRef.current = sectionIndex;
 
-    const interpolated = start.clone().lerp(end, lerpFactor);
-
-    camRef.current.position.copy(interpolated);
-    camRef.current.lookAt(0, -0.5, 0);
-  });
+      // Animate camera to that section position
+      gsap.to(camRef.current.position, {
+        x: cameraPositions[sectionIndex].x,
+        y: cameraPositions[sectionIndex].y,
+        z: cameraPositions[sectionIndex].z,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onUpdate: () => camRef.current.lookAt(0, -0.5, 0),
+      });
+    }
+  }, [progress]);
 
   return null;
 };
